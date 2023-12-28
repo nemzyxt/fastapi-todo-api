@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -11,8 +11,11 @@ class Todo(BaseModel):
     done: bool
 
 @app.post('/todo')
-def create_todo():
-    pass
+def create_todo(todo: dict):
+    todo['id'] = len(todos) + 1
+    todo['done'] = False
+    todos.append(todo)
+    return todo
 
 @app.get('/todo')
 def get_todos():
