@@ -42,5 +42,10 @@ def update_todo(id: int, updated_todo: dict, response: Response):
         return 'Item not found'
 
 @app.delete('/todo/{id}')
-def delete_todo():
-    pass
+def delete_todo(id: int, response: Response):
+    for todo in todos:
+        if todo['id'] == id:
+            todos.remove(todo)
+            return 'Item deleted successfully'
+    else:
+        return 'Item not found'
