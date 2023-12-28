@@ -1,6 +1,14 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
+
+todos = []
+
+class Todo(BaseModel):
+    id: int
+    item: str
+    done: bool
 
 @app.post('/todo')
 def create_todo():
