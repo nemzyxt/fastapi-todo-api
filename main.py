@@ -31,8 +31,15 @@ def get_todo(id: int, response: Response):
         return 'Item not found'
 
 @app.put('/todo/{id}')
-def update_todo():
-    pass
+def update_todo(id: int, updated_todo: dict, response: Response):
+    for todo in todos:
+        if todo['id'] == id:
+            todo['item'] = updated_todo.get('item')
+            todo['done'] = updated_todo.get('done')
+            return updated_todo
+    else:
+        response.status_code = 404
+        return 'Item not found'
 
 @app.delete('/todo/{id}')
 def delete_todo():
