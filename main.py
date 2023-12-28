@@ -19,7 +19,7 @@ def create_todo(todo: dict):
 
 @app.get('/todo')
 def get_todos():
-    pass
+    return todos
 
 @app.get('/todo/{id}')
 def get_todo():
