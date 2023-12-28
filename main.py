@@ -6,14 +6,13 @@ app = FastAPI()
 todos = []
 
 class Todo(BaseModel):
-    id: int
     item: str
     done: bool
 
 @app.post('/todo')
-def create_todo(todo: dict):
+def create_todo(new_todo: Todo):
+    todo = new_todo.dict()
     todo['id'] = len(todos) + 1
-    todo['done'] = False
     todos.append(todo)
     return todo
 
@@ -31,7 +30,8 @@ def get_todo(id: int, response: Response):
         return 'Item not found'
 
 @app.put('/todo/{id}')
-def update_todo(id: int, updated_todo: dict, response: Response):
+def update_todo(id: int, updated_todo: Todo, response: Response):
+    updated_todo = updated_todo.dict()
     for todo in todos:
         if todo['id'] == id:
             todo['item'] = updated_todo.get('item')
@@ -42,7 +42,7 @@ def update_todo(id: int, updated_todo: dict, response: Response):
         return 'Item not found'
 
 @app.delete('/todo/{id}')
-def delete_todo(id: int, response: Response):
+def delete_todo(id: int):
     for todo in todos:
         if todo['id'] == id:
             todos.remove(todo)
