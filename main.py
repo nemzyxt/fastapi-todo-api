@@ -22,8 +22,13 @@ def get_todos():
     return todos
 
 @app.get('/todo/{id}')
-def get_todo():
-    pass
+def get_todo(id: int, response: Response):
+    for todo in todos:
+        if todo['id'] == id:
+            return todo
+    else:
+        response.status_code = 404
+        return 'Item not found'
 
 @app.put('/todo/{id}')
 def update_todo():
